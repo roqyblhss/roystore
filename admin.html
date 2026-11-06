@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROY STORE - Admin Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } }
+            }
+        }
+    </script>
+    <style>
+        .nav-card-3d {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .btn-3d-blue {
+            background: linear-gradient(180deg, #3B82F6 0%, #1D4ED8 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 4px 14px rgba(59, 130, 246, 0.5);
+            border: 1px solid #60A5FA;
+        }
+        .btn-3d-blue:hover { background: linear-gradient(180deg, #60A5FA 0%, #2563EB 100%); }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 sm:p-8">
+
+    <div class="max-w-4xl mx-auto space-y-6">
+        
+        <!-- HEADER -->
+        <div class="flex items-center justify-between nav-card-3d p-6 rounded-3xl">
+            <div>
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest bg-blue-950 px-3 py-1 rounded-full border border-blue-800/40">Admin Panel</span>
+                <h1 class="text-2xl font-extrabold text-white mt-2">Dashboard Pengelola ROY STORE</h1>
+            </div>
+            <a href="index.html" target="_blank" class="text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2.5 rounded-xl border border-slate-700 transition flex items-center gap-2">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Lihat Web Utama
+            </a>
+        </div>
+
+        <!-- FORM TAMBAH AKUN GAME -->
+        <div class="nav-card-3d p-6 sm:p-8 rounded-3xl">
+            <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-gamepad text-blue-400"></i> Tambah Katalog Akun Game (Link GitHub)
+            </h2>
+            
+            <form id="accountForm" onsubmit="uploadAccount(event)" class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Pilih Kategori Game:</label>
+                        <select id="accGame" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-white outline-none">
+                            <option value="ff">Free Fire (FF)</option>
+                            <option value="ml">Mobile Legends (ML)</option>
+                            <option value="other">Game Lainnya</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Tipe Tier Akun:</label>
+                        <select id="accType" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-white outline-none">
+                            <option value="sultan">Sultan</option>
+                            <option value="pelajar">Pelajar</option>
+                            <option value="receh">Receh</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Kode Akun:</label>
+                        <input type="text" id="accCode" required placeholder="Contoh: ROY-FF-05" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Harga Asli (Coret):</label>
+                        <input type="text" id="accPriceOrig" required placeholder="Rp 500.000" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Harga Jual (Angka untuk Sort):</label>
+                        <input type="text" id="accPriceNum" required oninput="autoCorrectPrice(this)" placeholder="300000" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-white outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Judul / Deskripsi Singkat Akun:</label>
+                        <input type="text" id="accTitle" required placeholder="Contoh: FF Sultan SG2 Ungu Full Skin" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Harga Display (Teks):</label>
+                        <input type="text" id="accPriceCurr" required placeholder="Rp 300.000" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-white outline-none">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Rank / Level:</label>
+                        <input type="text" id="accRank" required placeholder="Contoh: LEVEL 65 atau Mythic" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Status Login:</label>
+                        <input type="text" id="accLogin" required placeholder="Contoh: GOOGLE / Moonton" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-white outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Spesifikasi Detail (Pisahkan dengan koma):</label>
+                    <input type="text" id="accSpecs" required placeholder="Contoh: Level 65, Vault Rame, EVO Max, Full Aman" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-white outline-none">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Link URL Foto Cover (GitHub):</label>
+                        <input type="url" id="accImgUrl" required placeholder="https://raw.githubusercontent.com/.../foto.jpg" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Link URL Media Detail (Opsional):</label>
+                        <input type="url" id="accMediaUrl" placeholder="https://raw.githubusercontent.com/.../detail.jpg" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-3 px-4 text-sm text-white outline-none">
+                    </div>
+                </div>
+                <span class="text-[10px] text-slate-400 block">*Gunakan link raw dari GitHub agar gambar tampil sempurna tanpa batasan ukuran cloud.</span>
+
+                <button type="submit" id="submitBtn" class="w-full btn-3d-blue text-white font-extrabold text-sm py-3.5 rounded-xl transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Tambahkan Akun ke Cloud
+                </button>
+            </form>
+        </div>
+
+        <!-- KELOLA / HAPUS DATA CUSTOM -->
+        <div class="nav-card-3d p-6 sm:p-8 rounded-3xl space-y-6">
+            <div class="flex items-center justify-between">
+                <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-list-check text-blue-400"></i> Daftar Akun Custom Online</h2>
+                <button onclick="clearAllData()" class="text-xs text-rose-400 bg-rose-950/40 px-3 py-1.5 rounded-lg border border-rose-900/50">Reset Semua</button>
+            </div>
+            <div>
+                <div id="adminAccountGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const BIN_ID = '6aedd6d6ffd5d16053ac0f9d';
+        const API_KEY = '$2a$10$vWEcLWKLs6j9nxPoG1R37.GbaXvQGtgbN.Ryuu3Z1cGlUD/GdB38S';
+
+        document.addEventListener("DOMContentLoaded", () => { renderAdminData(); });
+
+        async function fetchCloudData() {
+            try {
+                let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': API_KEY }
+                });
+                let json = await res.json();
+                return json.record || { accounts: [], photos: [] };
+            } catch (err) {
+                console.error(err);
+                return { accounts: [], photos: [] };
+            }
+        }
+
+        async function saveCloudData(cloudData) {
+            try {
+                let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': API_KEY,
+                        'X-Bin-Versioning': 'false'
+                    },
+                    body: JSON.stringify(cloudData)
+                });
+                if (!res.ok) {
+                    let errDetail = await res.text();
+                    console.error("JSONBin Error Response:", errDetail);
+                    throw new Error('Gagal menyimpan ke server cloud (Status: ' + res.status + ')');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('❌ Gagal menyimpan ke server cloud.');
+            }
+        }
+
+        // Fungsi auto-correct untuk membersihkan input harga sort agar hanya angka
+        function autoCorrectPrice(input) {
+            input.value = input.value.replace(/[^0-9]/g, '');
+        }
+
+        async function uploadAccount(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "Menyimpan ke Cloud...";
+            btn.disabled = true;
+
+            try {
+                const specsArr = document.getElementById('accSpecs').value.split(',').map(s => s.trim());
+                const imgUrl = document.getElementById('accImgUrl').value.trim();
+                const mediaUrlInput = document.getElementById('accMediaUrl').value.trim();
+                const mediaUrl = mediaUrlInput !== "" ? mediaUrlInput : imgUrl;
+
+                const newAcc = {
+                    id: Date.now(),
+                    game: document.getElementById('accGame').value,
+                    code: document.getElementById('accCode').value,
+                    title: document.getElementById('accTitle').value,
+                    type: document.getElementById('accType').value,
+                    priceOriginal: document.getElementById('accPriceOrig').value,
+                    priceCurrent: document.getElementById('accPriceCurr').value,
+                    priceNumber: parseFloat(document.getElementById('accPriceNum').value) || 0,
+                    img: imgUrl,
+                    mediaType: 'image',
+                    mediaUrl: mediaUrl,
+                    highestranklevel: document.getElementById('accRank').value,
+                    statusLogin: document.getElementById('accLogin').value,
+                    specs: specsArr,
+                    isAvailable: true
+                };
+
+                let cloudData = await fetchCloudData();
+                if (!cloudData.accounts) cloudData.accounts = [];
+                cloudData.accounts.unshift(newAcc);
+                await saveCloudData(cloudData);
+
+                alert('✅ Akun game berhasil ditambahkan ke Cloud Online!');
+                document.getElementById('accountForm').reset();
+                renderAdminData();
+            } catch (err) {
+                console.error(err);
+                alert('Terjadi kesalahan saat menyimpan data.');
+            } finally {
+                btn.innerText = "Tambahkan Akun ke Cloud";
+                btn.disabled = false;
+            }
+        }
+
+        async function renderAdminData() {
+            const accGrid = document.getElementById('adminAccountGrid');
+            if(!accGrid) return;
+            accGrid.innerHTML = `<div class="text-xs text-slate-400">Memuat data dari cloud...</div>`;
+            
+            let cloudData = await fetchCloudData();
+            let customAccs = cloudData.accounts || [];
+
+            if (customAccs.length === 0) {
+                accGrid.innerHTML = `<div class="col-span-full text-slate-500 text-xs">Belum ada akun game custom di cloud.</div>`;
+            } else {
+                let htmlAcc = '';
+                customAccs.forEach(acc => {
+                    let statusBtn = acc.isAvailable ? 
+                        `<button onclick="toggleSoldOut(${acc.id})" class="text-[10px] font-bold bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500 hover:text-white px-2.5 py-1 rounded-lg border border-emerald-500/30">Tersedia</button>` : 
+                        `<button onclick="toggleSoldOut(${acc.id})" class="text-[10px] font-bold bg-rose-500/20 text-rose-400 hover:bg-rose-500 hover:text-white px-2.5 py-1 rounded-lg border border-rose-500/30">Sold Out</button>`;
+
+                    htmlAcc += `
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="${acc.img}" class="w-12 h-12 object-cover rounded-lg">
+                            <div>
+                                <div class="text-xs font-bold text-white">#${acc.code} - ${acc.title}</div>
+                                <div class="text-[10px] text-blue-400">${acc.priceCurrent}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            ${statusBtn}
+                            <button onclick="deleteAccount(${acc.id})" class="text-rose-400 text-xs p-1.5"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>`;
+                });
+                accGrid.innerHTML = htmlAcc;
+            }
+        }
+
+        async function toggleSoldOut(id) {
+            let cloudData = await fetchCloudData();
+            let acc = cloudData.accounts.find(a => a.id === id);
+            if (acc) {
+                acc.isAvailable = !acc.isAvailable;
+                await saveCloudData(cloudData);
+                renderAdminData();
+            }
+        }
+
+        async function deleteAccount(id) {
+            if (confirm('Hapus akun ini dari cloud?')) {
+                let cloudData = await fetchCloudData();
+                cloudData.accounts = cloudData.accounts.filter(a => a.id !== id);
+                await saveCloudData(cloudData);
+                renderAdminData();
+            }
+        }
+
+        async function clearAllData() {
+            if (confirm('Reset semua akun custom di cloud?')) {
+                let cloudData = await fetchCloudData();
+                cloudData.accounts = [];
+                await saveCloudData(cloudData);
+                renderAdminData();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROY STORE - Marketplace Jual Beli Akun Game</title>
+    
+    <!-- PANGGIL DATA.JS DI DALAM HEAD AGAR SIAP LEBIH DULU -->
+    <script src="data.js"></script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#1E40AF',
+                            lightblue: '#3B82F6',
+                            dark: '#0F172A',
+                            gray: '#F8FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .nav-card-3d {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 
+                        0 4px 6px -1px rgba(0, 0, 0, 0.5), 
+                        0 2px 4px -1px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            transition: all 0.2s ease;
+        }
+        .nav-card-3d:hover {
+            border-color: rgba(59, 130, 246, 0.6);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 
+                        0 6px 12px -2px rgba(30, 58, 138, 0.5), 
+                        0 0 12px rgba(59, 130, 246, 0.4);
+        }
+        .nav-active {
+            background: linear-gradient(180deg, #3B82F6 0%, #1D4ED8 100%) !important;
+            border-color: #60A5FA !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+        }
+        .btn-3d-blue {
+            background: linear-gradient(180deg, #3B82F6 0%, #1D4ED8 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 4px 14px rgba(59, 130, 246, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4);
+            border: 1px solid #60A5FA;
+        }
+        .btn-3d-blue:hover {
+            background: linear-gradient(180deg, #60A5FA 0%, #2563EB 100%);
+            transform: translateY(-2px);
+        }
+        .btn-3d-amber {
+            background: linear-gradient(180deg, #F59E0B 0%, #D97706 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 14px rgba(245, 158, 11, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4);
+            border: 1px solid #FCD34D;
+        }
+        .btn-3d-amber:hover {
+            background: linear-gradient(180deg, #FBBF24 0%, #EAB308 100%);
+            transform: translateY(-2px);
+        }
+        .btn-3d-green {
+            background: linear-gradient(180deg, #10B981 0%, #047857 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 4px 14px rgba(16, 185, 129, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4);
+            border: 1px solid #34D399;
+        }
+        .btn-3d-green:hover {
+            background: linear-gradient(180deg, #34D399 0%, #059669 100%);
+            transform: translateY(-2px);
+        }
+        .grid-fade-down {
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
+        }
+        .no-save-img {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            pointer-events: none;
+        }
+        .protected-container {
+            position: relative;
+        }
+        .protected-container::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+            background: transparent;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between antialiased selection:bg-blue-600 selection:text-white" oncontextmenu="return false;">
+
+    <!-- NAVBAR STICKY FIXED -->
+    <nav class="glass-nav fixed top-0 left-0 w-full z-[999] border-b border-blue-500/30 overflow-hidden">
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#3b82f640_1px,transparent_1px),linear-gradient(to_bottom,#3b82f640_1px,transparent_1px)] bg-[size:20px_20px] grid-fade-down pointer-events-none"></div>
+        <div class="absolute -top-10 -left-10 w-48 h-48 bg-blue-500/30 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex items-center justify-between h-20">
+                <!-- KLIK LOGO INI UNTUK KEMBALI KE BERANDA -->
+                <div class="flex items-center space-x-3 cursor-pointer nav-card-3d px-3.5 py-2 rounded-2xl" onclick="openLayer('home')">
+                   <img src="logoroystore.jpeg" alt="Logo" class="h-10 w-10 object-cover rounded-xl shadow-md border border-blue-800/50">
+                    <span class="text-xl font-extrabold tracking-wider text-white">ROY STORE</span>
+                </div>
+
+                <!-- MENU NAVBAR DESKTOP -->
+                <div class="hidden md:flex items-center space-x-2.5">
+                    <button id="nav-catalog" onclick="openLayer('catalog')" class="nav-btn nav-card-3d px-3.5 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-gamepad text-slate-400"></i> Katalog Akun</button>
+                    <button id="nav-reviews" onclick="openLayer('reviews')" class="nav-btn nav-card-3d px-3.5 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-star text-slate-400"></i> Ulasan</button>
+                    <button id="nav-contact" onclick="openLayer('contact')" class="nav-btn nav-card-3d px-3.5 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-address-book text-slate-400"></i> Contact Person</button>
+                    <button id="nav-group" onclick="openLayer('group')" class="nav-btn nav-card-3d px-3.5 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-users text-slate-400"></i> Group JB</button>
+                    <button id="nav-gallery" onclick="openLayer('gallery')" class="nav-btn nav-card-3d px-3.5 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-images text-slate-400"></i> Galeri Testi</button>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="text-slate-300 hover:text-white focus:outline-none p-2 nav-card-3d rounded-xl">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 px-4 pt-3 pb-6 space-y-2 relative z-10">
+            <button onclick="openLayer('home'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 font-medium">Beranda Utama</button>
+            <button onclick="openLayer('catalog'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 font-medium">🎮 Katalog Akun Game</button>
+            <button onclick="openLayer('reviews'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 font-medium">★ Testimoni & Ulasan</button>
+            <button onclick="openLayer('contact'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 font-medium">Contact Person Resmi</button>
+            <button onclick="openLayer('group'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 font-medium">Group JB ROY STORE</button>
+            <button onclick="openLayer('gallery'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-lg text-slate-300 font-medium">📷 Galeri Foto Testimoni</button>
+        </div>
+    </nav>
+
+    <!-- LAYER 1: BERANDA -->
+    <div id="layer-home" class="page-layer">
+        <header class="relative pt-32 pb-14 md:pt-40 md:pb-16 overflow-hidden border-b border-slate-900">
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950/80 border border-blue-800/50 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-4">
+                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span> Marketplace Terpercaya
+                </span>
+                <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight">
+                    Jual Beli Akun Game <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-200">Aman & Terjamin</span>
+                </h1>
+                <p class="mt-4 max-w-2xl mx-auto text-base sm:text-lg text-slate-400">
+                    Selamat datang di ROY STORE! Pilihan terbaik untuk mendapatkan akun game impianmu dengan garansi yang menjanjikan.
+                </p>
+
+                <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+                    <button onclick="openLayer('catalog')" class="btn-3d-blue text-white font-extrabold px-6 py-3.5 rounded-2xl text-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad text-base"></i> Buka Katalog Akun
+                    </button>
+                    <button onclick="openLayer('gallery')" class="btn-3d-green text-white font-extrabold px-6 py-3.5 rounded-2xl text-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-images text-base"></i> Galeri Testi
+                    </button>
+                    <button onclick="openSellModal()" class="btn-3d-amber text-slate-950 font-extrabold px-6 py-3.5 rounded-2xl text-sm transition flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Jual Akun
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <section class="py-12 bg-slate-950 border-b border-slate-900">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-8">
+                    <span class="text-xs font-bold text-blue-400 uppercase tracking-widest bg-blue-950 px-3 py-1 rounded-full border border-blue-800/40">Komunitas Aktif</span>
+                    <h2 class="text-2xl font-extrabold text-white mt-2">Gabung Group Jual Beli (JB) Resmi</h2>
+                </div>
+                <div id="homeGroupListContainer" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-slate-950 border-b border-slate-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl font-bold text-white mb-8 text-center"><i class="fa-solid fa-gamepad text-blue-500 mr-2"></i> Pilih Game Favoritmu</h2>
+                <div id="gameCategoryGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-slate-950">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-10">
+                    <span class="text-xs font-bold text-blue-400 uppercase tracking-widest bg-blue-950 px-3 py-1 rounded-full border border-blue-800/40">Pusat Informasi</span>
+                    <h2 class="text-2xl font-extrabold text-white mt-2">Pertanyaan Sering Diajukan (FAQ)</h2>
+                </div>
+                <div id="faqContainer" class="space-y-4"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- LAYER: KATALOG -->
+    <div id="layer-catalog" class="page-layer hidden pt-28 pb-16 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <button onclick="openLayer('home')" class="mb-6 btn-3d-blue px-4 py-2 rounded-xl text-white transition flex items-center gap-2 text-xs font-bold">
+                <i class="fa-solid fa-arrow-left"></i> Kembali
+            </button>
+
+            <div class="nav-card-3d bg-gradient-to-r from-blue-950 via-slate-900 to-slate-900 p-6 md:p-8 rounded-3xl border border-blue-800/40 mb-8 shadow-2xl space-y-6">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 border-b border-slate-800/80 pb-6">
+                    <div>
+                        <span class="text-blue-400 font-bold text-xs uppercase tracking-widest bg-blue-900/40 px-3 py-1 rounded-full border border-blue-800/40">Katalog Terlengkap</span>
+                        <h1 class="text-3xl font-extrabold text-white mt-2">Daftar Akun Game Ready</h1>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+                        <input type="text" id="searchInput" oninput="applyCombinedFilter()" placeholder="Cari kode/nama akun..." class="bg-slate-950 border border-slate-800 text-xs text-white px-4 py-2.5 rounded-xl w-full sm:w-64 focus:border-blue-500 outline-none">
+                        <select id="sortSelect" onchange="applyCombinedFilter()" class="bg-slate-950 border border-slate-800 text-xs text-slate-300 px-3 py-2.5 rounded-xl outline-none font-semibold">
+                            <option value="default">Urutkan: Terbaru</option>
+                            <option value="low-high">Harga: Termurah</option>
+                            <option value="high-low">Harga: Termahal</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center gap-1 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 overflow-x-auto w-full sm:w-auto">
+                        <button onclick="filterCatalogGame('all')" id="btnGame-all" class="catalog-game-btn px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 transition whitespace-nowrap">Semua Game</button>
+                        <button onclick="filterCatalogGame('ff')" id="btnGame-ff" class="catalog-game-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap"><i class="fa-solid fa-fire text-amber-500 mr-1"></i> Free Fire</button>
+                        <button onclick="filterCatalogGame('ml')" id="btnGame-ml" class="catalog-game-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap"><i class="fa-solid fa-shield-halved text-blue-400 mr-1"></i> Mobile Legends</button>
+                        <button onclick="filterCatalogGame('other')" id="btnGame-other" class="catalog-game-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap"><i class="fa-solid fa-gamepad text-purple-400 mr-1"></i> Lainnya</button>
+                    </div>
+
+                    <div class="flex items-center gap-1 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 overflow-x-auto w-full sm:w-auto">
+                        <button onclick="filterCatalogType('all')" id="btnType-all" class="catalog-type-btn px-3 py-1.5 rounded-xl text-xs font-bold text-white bg-slate-800 border border-slate-700 transition whitespace-nowrap">Semua Tier</button>
+                        <button onclick="filterCatalogType('sultan')" id="btnType-sultan" class="catalog-type-btn px-3 py-1.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap">Sultan</button>
+                        <button onclick="filterCatalogType('pelajar')" id="btnType-pelajar" class="catalog-type-btn px-3 py-1.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap">Pelajar</button>
+                        <button onclick="filterCatalogType('receh')" id="btnType-receh" class="catalog-type-btn px-3 py-1.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap">Receh</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="unifiedCatalogGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div id="noAccountFound" class="hidden text-center py-16 bg-slate-900/50 border border-slate-800 rounded-3xl mt-4">
+                <i class="fa-solid fa-box-open text-4xl text-slate-600 mb-3"></i>
+                <h3 class="text-lg font-bold text-white">Tidak ada akun yang sesuai</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYER: GALERI TESTIMONI -->
+    <div id="layer-gallery" class="page-layer hidden pt-32 pb-16 min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <button onclick="openLayer('home')" class="mb-6 btn-3d-blue px-4 py-2 rounded-xl text-white transition flex items-center gap-2 text-xs font-bold">
+                <i class="fa-solid fa-arrow-left"></i> Kembali
+            </button>
+
+            <div class="nav-card-3d bg-gradient-to-r from-blue-950 via-slate-900 to-slate-900 border border-blue-900/50 rounded-3xl p-8 mb-8 shadow-2xl">
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30">Bukti Transaksi Real</span>
+                <h2 class="text-3xl font-extrabold text-white mt-2">Galeri Foto Testimoni</h2>
+                <p class="text-xs text-slate-400 mt-1">Kumpulan bukti tangkapan layar (screenshot) transaksi sukses dari konsumen ROY STORE.</p>
+            </div>
+
+            <div class="flex items-center gap-2 mb-6 overflow-x-auto pb-2">
+                <button onclick="filterTesti('all')" id="btnTesti-all" class="testi-filter-btn px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 transition whitespace-nowrap">Semua Testi</button>
+                <button onclick="filterTesti('ff')" id="btnTesti-ff" class="testi-filter-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap"><i class="fa-solid fa-fire text-amber-500 mr-1"></i> Free Fire</button>
+                <button onclick="filterTesti('ml')" id="btnTesti-ml" class="testi-filter-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap"><i class="fa-solid fa-shield-halved text-blue-400 mr-1"></i> Mobile Legends</button>
+                <button onclick="filterTesti('other')" id="btnTesti-other" class="testi-filter-btn px-4 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition whitespace-nowrap"><i class="fa-solid fa-gamepad text-purple-400 mr-1"></i> Lainnya</button>
+            </div>
+
+            <div id="testimonialGalleryGrid" class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4"></div>
+            
+            <div id="noGalleryFound" class="hidden text-center py-16 bg-slate-900/50 border border-slate-800 rounded-3xl mt-4">
+                <i class="fa-solid fa-images text-4xl text-slate-600 mb-3"></i>
+                <h3 class="text-lg font-bold text-white">Belum ada foto testimoni</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYER: CONTACT -->
+    <div id="layer-contact" class="page-layer hidden pt-32 pb-16 min-h-screen">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <button onclick="openLayer('home')" class="mb-6 btn-3d-blue px-4 py-2 rounded-xl text-white transition flex items-center gap-2 text-xs font-bold">
+                <i class="fa-solid fa-arrow-left"></i> Kembali
+            </button>
+            <div class="nav-card-3d bg-slate-900 border border-blue-900/60 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+                <div class="text-center max-w-lg mx-auto mb-8">
+                    <div class="w-16 h-16 bg-blue-600/20 border border-blue-500/40 rounded-3xl flex items-center justify-center text-blue-400 text-3xl mx-auto mb-4">
+                        <i class="fa-solid fa-address-book"></i>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-white mt-3">Contact Person & Sosial Media</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    <button onclick="openWhatsappModal()" class="w-full text-left flex items-center justify-between p-4 nav-card-3d bg-slate-950 hover:bg-slate-800 rounded-2xl transition group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-xl flex items-center justify-center text-2xl"><i class="fa-brands fa-whatsapp"></i></div>
+                            <div>
+                                <h4 class="text-base font-bold text-white">WhatsApp Official Admin <span class="ml-2 w-2 h-2 inline-block bg-emerald-500 rounded-full animate-ping"></span></h4>
+                                <p class="text-xs text-slate-400">Hubungi admin resmi online</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-600"></i>
+                    </button>
+
+                    <a id="cpInstagramLink" href="#" target="_blank" class="flex items-center justify-between p-4 nav-card-3d bg-slate-950 hover:bg-slate-800 rounded-2xl transition group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-pink-500/20 text-pink-400 rounded-xl flex items-center justify-center text-2xl"><i class="fa-brands fa-instagram"></i></div>
+                            <div><h4 class="text-base font-bold text-white">Instagram Official</h4><p id="cpInstagramText" class="text-xs text-slate-400">Memuat...</p></div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-600"></i>
+                    </a>
+
+                    <a id="cpTiktokLink" href="#" target="_blank" class="flex items-center justify-between p-4 nav-card-3d bg-slate-950 hover:bg-slate-800 rounded-2xl transition group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-slate-800 text-slate-200 rounded-xl flex items-center justify-center text-2xl"><i class="fa-brands fa-tiktok"></i></div>
+                            <div><h4 class="text-base font-bold text-white">TikTok Official</h4><p id="cpTiktokText" class="text-xs text-slate-400">Memuat...</p></div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-600"></i>
+                    </a>
+
+                    <a id="cpLinktreeLink" href="#" target="_blank" class="flex items-center justify-between p-4 nav-card-3d bg-slate-950 hover:bg-slate-800 rounded-2xl transition group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-emerald-900/40 text-emerald-400 rounded-xl flex items-center justify-center text-2xl"><i class="fa-solid fa-link"></i></div>
+                            <div><h4 class="text-base font-bold text-white">Linktree Official</h4><p id="cpLinktreeText" class="text-xs text-slate-400">Memuat...</p></div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-600"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYER: ULASAN -->
+    <div id="layer-reviews" class="page-layer hidden pt-32 pb-16 min-h-screen">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <button onclick="openLayer('home')" class="mb-6 btn-3d-blue px-4 py-2 rounded-xl text-white transition flex items-center gap-2 text-xs font-bold">
+                <i class="fa-solid fa-arrow-left"></i> Kembali
+            </button>
+
+            <div class="nav-card-3d bg-gradient-to-r from-blue-950 via-slate-900 to-slate-900 border border-blue-900/50 rounded-3xl p-8 mb-8 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                    <span class="text-xs font-bold text-amber-400 uppercase tracking-widest bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/30">Verified Reviews</span>
+                    <h2 class="text-3xl font-extrabold text-white mt-2">Ulasan Real Konsumen</h2>
+                </div>
+                <div class="flex items-center gap-4 bg-slate-950/80 p-5 rounded-2xl border border-slate-800 nav-card-3d">
+                    <div id="averageRatingNum" class="text-4xl font-black text-amber-400">0.0</div>
+                    <div>
+                        <div id="averageStarsContainer" class="flex text-amber-400 text-sm gap-1">
+                            <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                        </div>
+                        <div id="totalTransactionsText" class="text-xs text-slate-400 mt-1">Belum ada transaksi sukses</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-card-3d bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 mb-10 shadow-xl">
+                <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-pen-to-square text-blue-400"></i> Beri Penilaian Transaksi</h3>
+                <form id="reviewForm" onsubmit="submitReview(event)" class="mt-6 space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div><label class="block text-xs font-semibold text-slate-400 mb-1">Nama Pembeli:</label><input type="text" id="revName" required placeholder="Contoh: Rian FF" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2.5 px-4 text-sm text-white"></div>
+                        <div><label class="block text-xs font-semibold text-slate-400 mb-1">Token Verifikasi:</label><input type="text" id="revToken" required placeholder="Contoh: ROY-849201" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2.5 px-4 text-sm font-mono text-amber-400"></div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div><label class="block text-xs font-semibold text-slate-400 mb-1">Akun Yang Dibeli:</label><input type="text" id="revAccount" required placeholder="Contoh: FF Sultan SG2" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2.5 px-4 text-sm text-white"></div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Rating Bintang:</label>
+                            <select id="revRating" class="w-full bg-slate-950 border border-slate-800 rounded-xl py-2.5 px-4 text-sm text-amber-400 font-bold">
+                                <option value="5">★★★★★ (5/5) - Sangat Puas</option>
+                                <option value="4">★★★★☆ (4/5) - Puas</option>
+                                <option value="3">★★★☆☆ (3/5) - Cukup</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div><label class="block text-xs font-semibold text-slate-400 mb-1">Pesan Ulasan:</label><textarea id="revComment" rows="3" required placeholder="Tuliskan ulasan..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm text-white"></textarea></div>
+                    <button type="submit" class="btn-3d-blue text-white font-bold text-sm px-6 py-3 rounded-xl transition">Kirim Ulasan</button>
+                </form>
+            </div>
+            <div id="reviewsListGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        </div>
+    </div>
+
+    <!-- LAYER: GROUP JB -->
+    <div id="layer-group" class="page-layer hidden pt-32 pb-16 min-h-screen">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <button onclick="openLayer('home')" class="mb-6 btn-3d-blue px-4 py-2 rounded-xl text-white transition flex items-center gap-2 text-xs font-bold">
+                <i class="fa-solid fa-arrow-left"></i> Kembali
+            </button>
+            <div class="nav-card-3d bg-gradient-to-r from-blue-950 via-slate-900 to-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+                <div class="text-center max-w-lg mx-auto mb-8"><h2 class="text-2xl font-extrabold text-white mt-3">Daftar Group Jual Beli (JB)</h2></div>
+                <div id="groupListContainer" class="space-y-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-950 border-t border-slate-800 py-10 text-center">
+        <p class="text-xs text-slate-500">© 2026 ROY STORE. Marketplace Jual Beli Akun Game Terpercaya.</p>
+    </footer>
+
+    <!-- MODAL PEMBAYARAN -->
+    <div id="paymentModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="nav-card-3d bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 relative shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button onclick="closePaymentModal()" class="absolute top-4 right-4 z-10 w-9 h-9 bg-slate-800 text-slate-300 rounded-full flex items-center justify-center hover:bg-slate-700 transition"><i class="fa-solid fa-xmark"></i></button>
+            <div class="text-center mb-5">
+                <h3 class="text-xl font-extrabold text-white mt-2">Pilih Metode Pembayaran</h3>
+                <p id="paymentTargetInfo" class="text-xs text-slate-400 mt-1"></p>
+            </div>
+            <div class="space-y-2.5">
+                <button onclick="selectPaymentMethod('QRIS')" class="w-full nav-card-3d bg-slate-950 px-5 py-4 rounded-2xl flex items-center justify-between"><span class="text-sm font-bold text-white">QRIS (Scan Bebas)</span><span class="text-xs text-blue-400 font-semibold">Pilih</span></button>
+                <button onclick="selectPaymentMethod('DANA')" class="w-full nav-card-3d bg-slate-950 px-5 py-4 rounded-2xl flex items-center justify-between"><span class="text-sm font-bold text-white">DANA</span><span class="text-xs text-sky-400 font-semibold">Pilih</span></button>
+                <button onclick="selectPaymentMethod('GoPay')" class="w-full nav-card-3d bg-slate-950 px-5 py-4 rounded-2xl flex items-center justify-between"><span class="text-sm font-bold text-white">GoPay</span><span class="text-xs text-emerald-400 font-semibold">Pilih</span></button>
+                <button onclick="selectPaymentMethod('OVO')" class="w-full nav-card-3d bg-slate-950 px-5 py-4 rounded-2xl flex items-center justify-between"><span class="text-sm font-bold text-white">OVO</span><span class="text-xs text-purple-400 font-semibold">Pilih</span></button>
+                <button onclick="selectPaymentMethod('ShopeePay')" class="w-full nav-card-3d bg-slate-950 px-5 py-4 rounded-2xl flex items-center justify-between"><span class="text-sm font-bold text-white">ShopeePay</span><span class="text-xs text-amber-500 font-semibold">Pilih</span></button>
+                <button onclick="selectPaymentMethod('SeaBank')" class="w-full nav-card-3d bg-slate-950 px-5 py-4 rounded-2xl flex items-center justify-between"><span class="text-sm font-bold text-white">SeaBank</span><span class="text-xs text-orange-400 font-semibold">Pilih</span></button>
+                <button onclick="selectPaymentMethod('Bank BCA')" class="w-full nav-card-3d bg-slate-950 px-5 py-4 rounded-2xl flex items-center justify-between"><span class="text-sm font-bold text-white">Bank BCA</span><span class="text-xs text-blue-400 font-semibold">Pilih</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETAIL MEDIA -->
+    <div id="mediaModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="nav-card-3d bg-slate-900 border border-slate-800 rounded-3xl max-w-xl w-full p-6 relative shadow-2xl my-8">
+            <button onclick="closeMediaModal()" class="absolute top-4 right-4 z-10 w-9 h-9 bg-slate-800 text-slate-300 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="mediaModalTitle" class="text-lg font-extrabold text-white mb-4">Judul Akun</h3>
+            <div id="mediaContainer" class="w-full bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 flex items-center justify-center max-h-[50vh] mb-5"></div>
+            <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800"><span class="text-[10px] text-slate-400 block">RANK</span><span id="modalRank" class="text-sm font-extrabold text-white">-</span></div>
+                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800"><span class="text-[10px] text-slate-400 block">LOGIN</span><span id="modalLogin" class="text-sm font-extrabold text-rose-400">-</span></div>
+                </div>
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800"><ul id="modalSpecsList" class="space-y-1.5 text-xs text-slate-300"></ul></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PILIH ADMIN WHATSAPP DENGAN FORMAT JUAL AKUN -->
+    <div id="whatsappModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="nav-card-3d bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 relative shadow-2xl">
+            <button onclick="closeWhatsappModal()" class="absolute top-4 right-4 z-10 w-9 h-9 bg-slate-800 text-slate-300 rounded-full flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            <div class="text-center mb-6">
+                <h3 class="text-xl font-extrabold text-white mt-2">Pilih Admin WhatsApp</h3>
+                <p class="text-xs text-slate-400 mt-1">Silakan pilih admin untuk konsultasi transaksi.</p>
+            </div>
+            <div id="whatsappAdminList" class="space-y-3"></div>
+        </div>
+    </div>
+
+    <!-- SCRIPT UTAMA SISTEM WEBSITE -->
+    <script>
+        let currentFilterGame = 'all';
+        let currentFilterType = 'all';
+        let currentTestiCategory = 'all';
+        let selectedProductData = null;
+        let isSellMode = false;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initGroupData();
+            initContactPersonData();
+            initWhatsappAdminsModal();
+            initFaqData();
+            renderHomeCategories();
+            renderUnifiedCatalog();
+            renderReviews();
+            renderTestimonialGallery();
+            checkUrlToken();
+            openLayer('home');
+        });
+
+        function openLayer(layerId) {
+            document.querySelectorAll('.page-layer').forEach(l => l.classList.add('hidden'));
+            const target = document.getElementById(`layer-${layerId}`);
+            if(target) {
+                target.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('nav-active'));
+                const activeBtn = document.getElementById(`nav-${layerId}`);
+                if(activeBtn) activeBtn.classList.add('nav-active');
+            }
+        }
+
+        function openSellModal() {
+            isSellMode = true;
+            initWhatsappAdminsModal();
+            document.getElementById('whatsappModal').classList.remove('hidden');
+        }
+
+        function openWhatsappModal() {
+            isSellMode = false;
+            initWhatsappAdminsModal();
+            document.getElementById('whatsappModal').classList.remove('hidden');
+        }
+
+        function initWhatsappAdminsModal() {
+            const container = document.getElementById('whatsappAdminList');
+            if (!storeData || !storeData.whatsappAdmins) return;
+
+            const sellTemplate = `Halo Admin ROY STORE, saya mau jual akun nih.%0A%0A*FORMAT JUAL AKUN*%0A• Game: %0A• Nickname/ID: %0A• Spek Singkat: %0A• Status Login: %0A• Harga Open: Rp `;
+            const askTemplate = `Halo Admin ROY STORE, saya ingin bertanya-tanya mengenai produk/layanan.`;
+
+            let html = '';
+            storeData.whatsappAdmins.forEach(adm => {
+                let messageText = isSellMode ? sellTemplate : askTemplate;
+                
+                html += `
+                <a href="https://wa.me/${adm.number}?text=${messageText}" target="_blank" class="w-full nav-card-3d bg-slate-950 hover:bg-slate-800 border border-slate-800 p-4 rounded-2xl flex items-center justify-between transition group">
+                    <div class="flex items-center gap-3 text-left">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg font-bold group-hover:bg-emerald-500 group-hover:text-white transition">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-extrabold text-white flex items-center gap-2">${adm.name} <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-normal">● ${adm.status}</span></div>
+                            <div class="text-xs text-slate-400">+62 ${adm.number.substring(2)} (${adm.label})</div>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-xl">Chat WA</span>
+                </a>`;
+            });
+            if(container) container.innerHTML = html;
+        }
+
+        function initFaqData() {
+            const container = document.getElementById('faqContainer');
+            if(!container || !storeData.faqs) return;
+            let html = '';
+            storeData.faqs.forEach(faq => {
+                html += `
+                <div class="nav-card-3d bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-md">
+                    <h4 class="text-sm font-bold text-white flex items-center gap-2"><i class="fa-solid fa-circle-question text-blue-400"></i> ${faq.q}</h4>
+                    <p class="text-xs text-slate-400 mt-2 pl-6">${faq.a}</p>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function copyCode(code) {
+            navigator.clipboard.writeText(code);
+            alert(`✅ Kode akun "${code}" berhasil disalin ke clipboard!`);
+        }
+
+        function checkUrlToken() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            if (token) {
+                document.getElementById('revToken').value = token;
+                openLayer('reviews');
+                let validTokens = JSON.parse(localStorage.getItem('roy_store_valid_tokens')) || [];
+                if (!validTokens.includes(token)) {
+                    validTokens.push(token);
+                    localStorage.setItem('roy_store_valid_tokens', JSON.stringify(validTokens));
+                }
+            }
+        }
+
+        function renderHomeCategories() {
+            const grid = document.getElementById('gameCategoryGrid');
+            if(!grid || !storeData.games) return;
+            let html = '';
+            storeData.games.forEach(game => {
+                html += `
+                <div onclick="openCatalogWithGame('${game.id}')" class="nav-card-3d group cursor-pointer relative rounded-3xl border border-slate-800 p-8 transition duration-300 hover:-translate-y-2 overflow-hidden shadow-2xl">
+                    <div class="absolute inset-0 -z-10">
+                        <img src="${game.bannerImg}" alt="${game.name}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-slate-950/80 group-hover:bg-slate-950/70 transition"></div>
+                    </div>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 bg-blue-900/50 rounded-2xl flex items-center justify-center text-blue-400 text-3xl"><i class="fa-solid ${game.icon}"></i></div>
+                        <span class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-950 text-blue-400 border border-blue-800/40">${game.badge}</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white group-hover:text-blue-400 transition">Stock ${game.name}</h3>
+                    <p class="text-sm text-slate-300 mt-2">${game.desc}</p>
+                </div>`;
+            });
+            grid.innerHTML = html;
+        }
+
+        const BIN_ID = '6aedd6d6ffd5d16053ac0f9d';
+        const API_KEY = '$2a$10$vWEcLWKLs6j9nxPoG1R37.GbaXvQGtgbN.Ryuu3Z1cGlUD/GdB38S';
+
+        async function renderUnifiedCatalog() {
+            const grid = document.getElementById('unifiedCatalogGrid');
+            if(!grid || !storeData.games) return;
+            
+            let customAccounts = [];
+            try {
+                let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': API_KEY }
+                });
+                let json = await res.json();
+                customAccounts = json.record?.accounts || [];
+            } catch(e) {
+                console.log("Gagal memuat data cloud:", e);
+            }
+
+            let cardsHtml = '';
+
+            // 1. Render akun custom dari cloud online (GitHub URLs)
+            customAccounts.forEach((acc) => {
+                let badgeColor = acc.type === 'sultan' ? "bg-amber-500 text-slate-950" : (acc.type === 'receh' ? "bg-emerald-500 text-slate-950" : "bg-blue-600 text-white");
+                let typeText = acc.type ? acc.type.toUpperCase() : 'SULTAN';
+                let soldOverlay = !acc.isAvailable ? `<div class="absolute inset-0 bg-slate-950/70 flex items-center justify-center z-10"><span class="bg-rose-600 text-white font-extrabold text-xs px-4 py-2 rounded-xl shadow-lg">Sold Out</span></div>` : '';
+                let actionBtn = acc.isAvailable ? 
+                    `<button onclick="openModal('${acc.code}', '${acc.title}', '${acc.priceCurrent}', '${acc.game}')" class="btn-3d-blue text-white text-xs font-bold px-4 py-2.5 rounded-xl">Beli</button>` :
+                    `<button disabled class="bg-slate-800 text-slate-500 text-xs font-semibold px-4 py-2.5 rounded-xl cursor-not-allowed">Habis</button>`;
+
+                cardsHtml += `
+                <div class="catalog-card game-${acc.game} type-${acc.type} nav-card-3d bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between shadow-xl relative" data-price="${acc.priceNumber || 0}" data-title="${acc.title.toLowerCase()}" data-code="${acc.code.toLowerCase()}">
+                    <div>
+                        <div class="relative">
+                            ${soldOverlay}
+                            <img src="${acc.img}" alt="${acc.title}" class="w-full h-48 object-cover">
+                            <span class="absolute top-3 left-3 ${badgeColor} text-xs font-extrabold px-2.5 py-1 rounded-md z-0">${typeText}</span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between mb-1">
+                                <div class="text-base text-blue-400 font-bold">#${acc.code}</div>
+                                <button onclick="copyCode('${acc.code}')" class="text-xs text-slate-400 hover:text-white bg-slate-800 px-2 py-1 rounded-lg"><i class="fa-regular fa-copy"></i> Salin</button>
+                            </div>
+                            <div class="text-xs text-slate-300 line-clamp-1">${acc.title}</div>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0 border-t border-slate-800/80 mt-2 flex items-center justify-between gap-2">
+                        <div class="mt-3"><div class="text-[10px] text-slate-500 line-through">${acc.priceOriginal}</div><div class="text-base font-extrabold text-blue-400">${acc.priceCurrent}</div></div>
+                        <div class="flex items-center gap-1.5 mt-3">
+                            <button onclick='openCustomAccountDetail(${JSON.stringify(acc)})' class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-2.5 rounded-xl flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-eye text-blue-400"></i> Detail
+                            </button>
+                            ${actionBtn}
+                        </div>
+                    </div>
+                </div>`;
+            });
+
+            // 2. Render akun bawaan dari data.js
+            storeData.games.forEach(game => {
+                game.accounts.forEach((acc, index) => {
+                    let badgeColor = acc.type === 'sultan' ? "bg-amber-500 text-slate-950" : (acc.type === 'receh' ? "bg-emerald-500 text-slate-950" : "bg-blue-600 text-white");
+                    let typeText = acc.type.toUpperCase();
+                    let tagBadge = acc.tag ? `<span class="absolute top-3 right-3 bg-blue-600 text-white font-bold text-[10px] px-2 py-0.5 rounded shadow">${acc.tag}</span>` : '';
+                    let soldOverlay = !acc.isAvailable ? `<div class="absolute inset-0 bg-slate-950/70 flex items-center justify-center z-10"><span class="bg-rose-600 text-white font-extrabold text-xs px-4 py-2 rounded-xl shadow-lg">Sold Out</span></div>` : '';
+                    let actionBtn = acc.isAvailable ? 
+                        `<button onclick="openModal('${acc.code}', '${acc.title}', '${acc.priceCurrent}', '${game.name}')" class="btn-3d-blue text-white text-xs font-bold px-4 py-2.5 rounded-xl">Beli</button>` :
+                        `<button disabled class="bg-slate-800 text-slate-500 text-xs font-semibold px-4 py-2.5 rounded-xl cursor-not-allowed">Habis</button>`;
+
+                    cardsHtml += `
+                    <div class="catalog-card game-${game.id} type-${acc.type} nav-card-3d bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between shadow-xl relative" data-price="${acc.priceNumber}" data-title="${acc.title.toLowerCase()}" data-code="${acc.code.toLowerCase()}">
+                        <div>
+                            <div class="relative">
+                                ${soldOverlay}
+                                <img src="${acc.img}" alt="${acc.title}" class="w-full h-48 object-cover">
+                                <span class="absolute top-3 left-3 ${badgeColor} text-xs font-extrabold px-2.5 py-1 rounded-md z-0">${typeText}</span>
+                                ${tagBadge}
+                            </div>
+                            <div class="p-5">
+                                <div class="flex items-center justify-between mb-1">
+                                    <div class="text-base text-blue-400 font-bold">#${acc.code}</div>
+                                    <button onclick="copyCode('${acc.code}')" class="text-xs text-slate-400 hover:text-white bg-slate-800 px-2 py-1 rounded-lg"><i class="fa-regular fa-copy"></i> Salin</button>
+                                </div>
+                                <div class="text-xs text-slate-300 line-clamp-1">${acc.title}</div>
+                            </div>
+                        </div>
+                        <div class="p-5 pt-0 border-t border-slate-800/80 mt-2 flex items-center justify-between gap-2">
+                            <div class="mt-3"><div class="text-[10px] text-slate-500 line-through">${acc.priceOriginal}</div><div class="text-base font-extrabold text-blue-400">${acc.priceCurrent}</div></div>
+                            <div class="flex items-center gap-1.5 mt-3">
+                                <button onclick="openAccountDetail('${game.id}', ${index})" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold px-3 py-2.5 rounded-xl flex items-center gap-1.5 transition">
+                                    <i class="fa-solid fa-eye text-blue-400"></i> Detail
+                                </button>
+                                ${actionBtn}
+                            </div>
+                        </div>
+                    </div>`;
+                });
+            });
+            grid.innerHTML = cardsHtml;
+        }
+
+        function openCustomAccountDetail(acc) {
+            document.getElementById('mediaModalTitle').innerText = `#${acc.code}`;
+            if (acc.mediaType === 'video') {
+                document.getElementById('mediaContainer').innerHTML = `<video controls autoplay class="w-full h-auto max-h-[45vh] object-contain rounded-xl"><source src="${acc.mediaUrl}" type="video/mp4"></video>`;
+            } else {
+                document.getElementById('mediaContainer').innerHTML = `<img src="${acc.mediaUrl}" class="max-h-[45vh] object-contain rounded-xl">`;
+            }
+            document.getElementById('modalRank').innerText = acc.highestranklevel || '-';
+            document.getElementById('modalLogin').innerText = acc.statusLogin || '-';
+            document.getElementById('modalSpecsList').innerHTML = acc.specs ? acc.specs.map(s => `<li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-blue-500"></i> ${s}</li>`).join('') : '';
+            document.getElementById('mediaModal').classList.remove('hidden');
+        }
+
+        function renderTestimonialGallery() {
+            const grid = document.getElementById('testimonialGalleryGrid');
+            const noFound = document.getElementById('noGalleryFound');
+            if (!grid || !storeData.testimonialPhotos) return;
+
+            let filteredPhotos = storeData.testimonialPhotos;
+
+            if (currentTestiCategory !== 'all') {
+                filteredPhotos = storeData.testimonialPhotos.filter(p => {
+                    let text = ((p.game || '') + " " + p.title + " " + p.caption).toLowerCase();
+                    if (currentTestiCategory === 'ff') return text.includes('ff') || text.includes('free fire');
+                    if (currentTestiCategory === 'ml') return text.includes('ml') || text.includes('mlbb') || text.includes('legends');
+                    if (currentTestiCategory === 'other') return !text.includes('ff') && !text.includes('free fire') && !text.includes('ml') && !text.includes('mlbb') && !text.includes('legends');
+                    return true;
+                });
+            }
+
+            if (filteredPhotos.length === 0) {
+                grid.innerHTML = '';
+                if(noFound) noFound.classList.remove('hidden');
+                return;
+            }
+            if(noFound) noFound.classList.add('hidden');
+
+            let html = '';
+            filteredPhotos.forEach((photo) => {
+                html += `
+                <div class="break-inside-avoid nav-card-3d bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+                    <div class="protected-container relative overflow-hidden bg-slate-950 flex items-center justify-center">
+                        <img src="${photo.img}" alt="${photo.title}" class="no-save-img w-full h-auto object-cover select-none">
+                    </div>
+                    <div class="p-4 border-t border-slate-800">
+                        <h4 class="text-xs font-bold text-white line-clamp-1">${photo.title}</h4>
+                        <p class="text-[10px] text-emerald-400 font-semibold mt-1"><i class="fa-solid fa-circle-check mr-1"></i> ${photo.caption}</p>
+                    </div>
+                </div>`;
+            });
+            grid.innerHTML = html;
+        }
+
+        function filterTesti(category) {
+            currentTestiCategory = category;
+            document.querySelectorAll('.testi-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg');
+                btn.classList.add('text-slate-400');
+            });
+            const activeBtn = document.getElementById(`btnTesti-${category}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-400');
+                activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-lg');
+            }
+            renderTestimonialGallery();
+        }
+
+        function openCatalogWithGame(gameId) { openLayer('catalog'); filterCatalogGame(gameId); }
+        
+        function filterCatalogGame(gameId) {
+            currentFilterGame = gameId;
+            document.querySelectorAll('.catalog-game-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg');
+                btn.classList.add('text-slate-400');
+            });
+            const activeBtn = document.getElementById(`btnGame-${gameId}`);
+            if (activeBtn) { activeBtn.classList.remove('text-slate-400'); activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-lg'); }
+            applyCombinedFilter();
+        }
+
+        function filterCatalogType(type) {
+            currentFilterType = type;
+            document.querySelectorAll('.catalog-type-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-800', 'text-white', 'border', 'border-slate-700');
+                btn.classList.add('text-slate-400');
+            });
+            const activeBtn = document.getElementById(`btnType-${type}`);
+            if (activeBtn) { activeBtn.classList.remove('text-slate-400'); activeBtn.classList.add('bg-slate-800', 'text-white', 'border', 'border-slate-700'); }
+            applyCombinedFilter();
+        }
+
+        function applyCombinedFilter() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const sortVal = document.getElementById('sortSelect').value;
+            const grid = document.getElementById('unifiedCatalogGrid');
+            const cards = Array.from(grid.querySelectorAll('.catalog-card'));
+            let visibleCount = 0;
+
+            cards.sort((a, b) => {
+                let pA = parseFloat(a.getAttribute('data-price')) || 0;
+                let pB = parseFloat(b.getAttribute('data-price')) || 0;
+                if (sortVal === 'low-high') return pA - pB;
+                if (sortVal === 'high-low') return pB - pA;
+                return 0;
+            });
+
+            cards.forEach(card => {
+                grid.appendChild(card);
+                let title = card.getAttribute('data-title');
+                let code = card.getAttribute('data-code');
+                let matchGame = (currentFilterGame === 'all' || card.classList.contains(`game-${currentFilterGame}`));
+                let matchType = (currentFilterType === 'all' || card.classList.contains(`type-${currentFilterType}`));
+                let matchSearch = (!searchVal || title.includes(searchVal) || code.includes(searchVal));
+
+                if (matchGame && matchType && matchSearch) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const noFound = document.getElementById('noAccountFound');
+            if(noFound) {
+                if(visibleCount === 0) noFound.classList.remove('hidden');
+                else noFound.classList.add('hidden');
+            }
+        }
+
+        function renderReviews() {
+            const grid = document.getElementById('reviewsListGrid');
+            if(!grid) return;
+            const savedReviews = localStorage.getItem('roy_store_reviews');
+            if (savedReviews) storeData.reviews = JSON.parse(savedReviews);
+
+            let total = storeData.reviews.length;
+            let avg = total > 0 ? (storeData.reviews.reduce((a, b) => a + b.rating, 0) / total).toFixed(1) : "0.0";
+
+            document.getElementById('averageRatingNum').innerText = avg;
+            if(document.getElementById('homeRatingNum')) document.getElementById('homeRatingNum').innerText = avg;
+            document.getElementById('totalTransactionsText').innerText = total > 0 ? `Berdasarkan ${total} Transaksi Sukses` : `Belum ada transaksi sukses`;
+
+            let starHtml = '';
+            for (let i = 1; i <= 5; i++) starHtml += `<i class="fa-${i <= Math.floor(avg) ? 'solid' : 'regular'} fa-star"></i>`;
+            document.getElementById('averageStarsContainer').innerHTML = starHtml;
+
+            if (total === 0) {
+                grid.innerHTML = `<div class="col-span-1 md:col-span-2 text-center py-12 bg-slate-900/50 border border-slate-800 rounded-3xl nav-card-3d"><i class="fa-solid fa-comment-dots text-4xl text-slate-600 mb-3"></i><h4 class="text-base font-bold text-white">Belum Ada Ulasan</h4><p class="text-xs text-slate-400 mt-1">Jadilah pembeli pertama yang memberikan ulasan!</p></div>`;
+                return;
+            }
+
+            let html = '';
+            storeData.reviews.forEach(rev => {
+                let stars = ''; for(let i=0; i<rev.rating; i++) stars += `<i class="fa-solid fa-star"></i>`;
+                html += `<div class="p-6 rounded-2xl nav-card-3d bg-slate-900 border border-slate-800 flex flex-col justify-between shadow-lg"><div><div class="flex items-center justify-between mb-3"><div><h4 class="font-bold text-white text-base">${rev.name}</h4><span class="text-xs text-blue-400 font-semibold"><i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> Membeli: ${rev.account}</span></div><div class="text-amber-400 text-xs gap-0.5 flex">${stars}</div></div><p class="text-xs text-slate-300 italic">"${rev.comment}"</p></div><div class="mt-4 pt-3 border-t border-slate-800/60 text-[10px] text-slate-500 text-right">${rev.date}</div></div>`;
+            });
+            grid.innerHTML = html;
+        }
+
+        function submitReview(e) {
+            e.preventDefault();
+            let token = document.getElementById('revToken').value.trim();
+            let validTokens = JSON.parse(localStorage.getItem('roy_store_valid_tokens')) || [];
+
+            if (!validTokens.includes(token)) { alert("❌ Token Verifikasi tidak valid atau sudah digunakan!"); return; }
+            localStorage.setItem('roy_store_valid_tokens', JSON.stringify(validTokens.filter(t => t !== token)));
+
+            let newRev = {
+                name: document.getElementById('revName').value,
+                account: document.getElementById('revAccount').value,
+                rating: parseInt(document.getElementById('revRating').value),
+                date: "Baru saja",
+                comment: document.getElementById('revComment').value
+            };
+
+            let current = JSON.parse(localStorage.getItem('roy_store_reviews')) || [];
+            current.unshift(newRev);
+            localStorage.setItem('roy_store_reviews', JSON.stringify(current));
+            renderReviews();
+            alert("✅ Ulasan berhasil dikirim! Token telah kedaluwarsa.");
+            document.getElementById('reviewForm').reset();
+        }
+
+        function initGroupData() {
+            const container = document.getElementById('homeGroupListContainer');
+            const groupContainer2 = document.getElementById('groupListContainer');
+            if (!storeData || !storeData.groups) return;
+
+            let html = '';
+            storeData.groups.forEach((g) => {
+                html += `<div class="p-4 nav-card-3d bg-slate-900 border border-slate-800 rounded-2xl flex flex-col justify-between shadow-lg"><h4 class="text-sm font-bold text-white mb-3">${g.name}</h4><a href="${g.link}" target="_blank" class="w-full btn-3d-blue text-white text-xs py-2.5 rounded-xl block text-center font-bold">Gabung Group</a></div>`;
+            });
+            if(container) container.innerHTML = html;
+            if(groupContainer2) groupContainer2.innerHTML = html;
+        }
+
+        function initContactPersonData() {
+            if(!storeData || !storeData.contactPerson) return;
+            const cp = storeData.contactPerson;
+            if(document.getElementById('cpInstagramLink')) {
+                document.getElementById('cpInstagramLink').href = cp.instagramUrl;
+                document.getElementById('cpInstagramText').innerText = cp.instagramDisplay;
+            }
+            if(document.getElementById('cpTiktokLink')) {
+                document.getElementById('cpTiktokLink').href = cp.tiktokUrl;
+                document.getElementById('cpTiktokText').innerText = cp.tiktokDisplay;
+            }
+            if(document.getElementById('cpLinktreeLink')) {
+                document.getElementById('cpLinktreeLink').href = cp.linktreeUrl;
+                document.getElementById('cpLinktreeText').innerText = cp.linktreeDisplay;
+            }
+        }
+
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        function toggleMobileMenu() { mobileMenu.classList.add('hidden'); }
+
+        function selectPaymentMethod(method) {
+            if (!selectedProductData) return;
+            
+            let token = 'ROY-' + Math.floor(100000 + Math.random() * 900000);
+            let validTokens = JSON.parse(localStorage.getItem('roy_store_valid_tokens')) || [];
+            validTokens.push(token);
+            localStorage.setItem('roy_store_valid_tokens', JSON.stringify(validTokens));
+            
+            let waMessage = `Halo Admin ROY STORE, saya ingin membeli akun berikut:%0A%0A` +
+                            `• *Kode Akun:* ${encodeURIComponent(selectedProductData.code)}%0A` +
+                            `• *Nama Akun:* ${encodeURIComponent(selectedProductData.title)}%0A` +
+                            `• *Harga:* ${encodeURIComponent(selectedProductData.price)}%0A` +
+                            `• *Metode Bayar:* ${encodeURIComponent(method)}%0A` +
+                            `• *Token Transaksi:* ${token}%0A%0A` +
+                            `Mohon diproses pesanannya, terima kasih!`;
+            
+            window.open(`https://wa.me/${storeData.adminPhone}?text=${waMessage}`, '_blank');
+            closePaymentModal();
+            
+            alert(`Token Transaksi Berhasil Dibuat:\n${token}\n(Simpan/Kirim token ini ke WhatsApp pembeli setelah transaksi selesai)`);
+        }
+
+        function openModal(code, title, price, game) {
+            selectedProductData = { code, title, price, game };
+            document.getElementById('paymentTargetInfo').innerText = `${title} (${price})`;
+            document.getElementById('paymentModal').classList.remove('hidden');
+        }
+        function closePaymentModal() { document.getElementById('paymentModal').classList.add('hidden'); }
+        function closeMediaModal() { document.getElementById('mediaModal').classList.add('hidden'); }
+        function closeWhatsappModal() { document.getElementById('whatsappModal').classList.add('hidden'); }
+
+        function openAccountDetail(gameId, accountIndex) {
+            let game = storeData.games.find(g => g.id === gameId);
+            if(!game) return;
+            let acc = game.accounts[accountIndex];
+            if(!acc) return;
+
+            document.getElementById('mediaModalTitle').innerText = `#${acc.code}`;
+            document.getElementById('mediaContainer').innerHTML = acc.mediaType === 'video' ? 
+                `<video controls autoplay class="w-full h-auto max-h-[45vh] object-contain rounded-xl"><source src="${acc.mediaUrl}" type="video/mp4"></video>` :
+                `<img src="${acc.mediaUrl}" class="max-h-[45vh] object-contain rounded-xl">`;
+            
+            document.getElementById('modalRank').innerText = acc.highestranklevel || '-';
+            document.getElementById('modalLogin').innerText = acc.statusLogin || '-';
+            document.getElementById('modalSpecsList').innerHTML = acc.specs ? acc.specs.map(s => `<li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-blue-500"></i> ${s}</li>`).join('') : '';
+            document.getElementById('mediaModal').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
